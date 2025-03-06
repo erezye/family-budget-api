@@ -121,6 +121,13 @@ family-budget-api/
    npm run seed
    ```
 
+5. Generate Swagger documentation:
+   ```bash
+   npm run swagger
+   ```
+
+The Swagger documentation is available at [http://localhost:3000/api-docs](http://localhost:3000/api-docs) when the server is running. A static `swagger.json` file is also automatically generated during the build process, which can be used with other Swagger tools or imported into your frontend.
+
 ### Running Tests
 
 ```bash

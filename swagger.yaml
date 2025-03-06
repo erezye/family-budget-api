@@ -1,0 +1,451 @@
+openapi: 3.0.0
+paths:
+  /budgets:
+    get:
+      description: Returns a list of all available budgets
+      operationId: BudgetController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: List of budgets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BudgetDto'
+      summary: Get all budgets
+      tags:
+        - budgets
+    post:
+      description: Creates a new monthly budget with initial values
+      operationId: BudgetController_create
+      parameters: []
+      requestBody:
+        required: true
+        description: Budget data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BudgetDto'
+      responses:
+        '201':
+          description: The created budget
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetDto'
+        '400':
+          description: Invalid budget data
+      summary: Create a new budget
+      tags:
+        - budgets
+  /budgets/{id}:
+    get:
+      description: Returns a single budget by its ID
+      operationId: BudgetController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Budget ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The found budget
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetDto'
+        '404':
+          description: Budget not found
+      summary: Get budget by ID
+      tags:
+        - budgets
+    put:
+      description: Updates an existing budget with new values
+      operationId: BudgetController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Budget ID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Updated budget data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BudgetDto'
+      responses:
+        '200':
+          description: The updated budget
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetDto'
+        '404':
+          description: Budget not found
+      summary: Update a budget
+      tags:
+        - budgets
+    delete:
+      description: Deletes a budget and all its items
+      operationId: BudgetController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Budget ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The deleted budget
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetDto'
+        '404':
+          description: Budget not found
+      summary: Delete a budget
+      tags:
+        - budgets
+  /budgets/summary/{id}:
+    get:
+      description: Returns a summary of income, expenses, and categories for a budget
+      operationId: BudgetController_getBudgetSummary
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Budget ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Budget summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetSummaryDto'
+        '404':
+          description: Budget not found
+      summary: Get budget summary
+      tags:
+        - budgets
+  /budgets/{id}/items:
+    post:
+      description: Adds a new transaction (income or expense) to a budget
+      operationId: BudgetController_addBudgetItem
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Budget ID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Budget item data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BudgetItemDto'
+      responses:
+        '200':
+          description: The updated budget
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetDto'
+        '404':
+          description: Budget not found
+      summary: Add item to budget
+      tags:
+        - budgets
+  /budgets/{budgetId}/items/{itemId}:
+    delete:
+      description: Removes a transaction from a budget
+      operationId: BudgetController_removeBudgetItem
+      parameters:
+        - name: budgetId
+          required: true
+          in: path
+          description: Budget ID
+          schema:
+            type: string
+        - name: itemId
+          required: true
+          in: path
+          description: Budget item ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The updated budget
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetDto'
+        '404':
+          description: Budget or item not found
+      summary: Delete a budget item
+      tags:
+        - budgets
+  /users:
+    get:
+      description: Returns a list of all users
+      operationId: UserController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDto'
+      summary: Get all users
+      tags:
+        - users
+    post:
+      description: Creates a new user account
+      operationId: UserController_create
+      parameters: []
+      requestBody:
+        required: true
+        description: User data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+      responses:
+        '201':
+          description: The created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '400':
+          description: Invalid user data
+      summary: Create a new user
+      tags:
+        - users
+  /users/{id}:
+    get:
+      description: Returns a single user by ID
+      operationId: UserController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: User ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The found user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: User not found
+      summary: Get user by ID
+      tags:
+        - users
+    put:
+      description: Updates an existing user with new values
+      operationId: UserController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: User ID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Updated user data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+      responses:
+        '200':
+          description: The updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: User not found
+      summary: Update a user
+      tags:
+        - users
+    delete:
+      description: Deletes a user account
+      operationId: UserController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: User ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The deleted user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: User not found
+      summary: Delete a user
+      tags:
+        - users
+info:
+  title: Family Budget API
+  description: API for managing family budgets with income, expenses, and reporting
+  version: '1.0'
+  contact: {}
+tags:
+  - name: budgets
+    description: Budget management endpoints
+  - name: users
+    description: User management endpoints
+servers: []
+components:
+  schemas:
+    BudgetItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the budget item
+        name:
+          type: string
+          description: Name of the budget item
+          example: Groceries
+        amount:
+          type: number
+          description: Amount in ILS
+          example: 3000
+        category:
+          type: string
+          description: Category of the budget item
+          example: Food
+        isIncome:
+          type: boolean
+          description: Whether this is income or expense
+          example: false
+        date:
+          format: date-time
+          type: string
+          description: Date of the transaction
+      required:
+        - id
+        - name
+        - amount
+        - category
+        - isIncome
+        - date
+    BudgetDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the budget
+        userId:
+          type: string
+          description: User ID that owns this budget
+        month:
+          type: number
+          description: Month number (1-12)
+          example: 3
+        year:
+          type: number
+          description: Year
+          example: 2025
+        income:
+          type: number
+          description: Total income amount
+          example: 30000
+        expenses:
+          type: number
+          description: Total expenses amount
+          example: 20000
+        items:
+          description: Array of budget items
+          type: array
+          items:
+            $ref: '#/components/schemas/BudgetItemDto'
+      required:
+        - id
+        - userId
+        - month
+        - year
+        - income
+        - expenses
+        - items
+    BudgetSummaryDto:
+      type: object
+      properties:
+        totalIncome:
+          type: number
+          description: Total income amount
+          example: 30000
+        totalExpenses:
+          type: number
+          description: Total expenses amount
+          example: 20000
+        balance:
+          type: number
+          description: Budget balance (income - expenses)
+          example: 10000
+        expensesByCategory:
+          type: object
+          description: Expenses grouped by category
+          example:
+            Housing: 10000
+            Food: 5000
+            Transportation: 2000
+      required:
+        - totalIncome
+        - totalExpenses
+        - balance
+        - expensesByCategory
+    UserDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the user
+        email:
+          type: string
+          description: User email address
+          example: user@example.com
+        password:
+          type: string
+          description: User password (hashed in storage)
+          example: password123
+        name:
+          type: string
+          description: User full name
+          example: John Doe
+        monthlyIncome:
+          type: number
+          description: Monthly income in ILS
+          example: 30000
+      required:
+        - id
+        - email
+        - password
+        - name
+        - monthlyIncome
